@@ -1,50 +1,75 @@
-import java.awt.Container;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.NumberFormat;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
 public class GenPunti extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CoordinatePunto p[];
 	private double dist[];
 	private int idx; 
+	private JButton gen;
+	
+	
+	private JPanel bottone = new JPanel();
+	private Punto a;
+	
 	
 	public GenPunti()
 	{
+		a = new Punto(-10,-10);
+		a.setBackground(Color.WHITE);
+		a.setBounds(10, 10, 100, 100);
+		
+		getContentPane().add(a, BorderLayout.CENTER);
+		getContentPane().add(bottone, BorderLayout.SOUTH);
+		
+
+		this.setSize(1000,700);
+		this.setLocationRelativeTo(null);
+		this.setResizable(false);
+
+		
 		p = new CoordinatePunto[100];
-		dist = new double[100 * 100];
 		idx = 0;
-		final Punto a = new Punto(0,0);
-		a.setVisible(false);
-		JFrame frame = new JFrame("Punti");
-		frame.setSize(500,300);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 		
-		final Container c = frame.getContentPane();
-		c.add(a);
+
+		gen = new JButton("Genera Problema");
+
+		bottone.add(gen);
+		bottone.setBackground(Color.GRAY);
 		
-		c.addMouseListener(new MouseListener()
+		a.addMouseListener(new MouseListener()
 		{
 			public void mousePressed(MouseEvent e)
 			{
 				int x = e.getX();
 				int y = e.getY();
 				
-				System.out.println("mouse " + x + "" + y);
 				a.move(x, y);
 				a.setVisible(true);
 				a.repaint();
 				p[idx] = new CoordinatePunto(x,y);
 				idx++;
-				for(int i = 0; i < idx; i++)
-				{
-					
-				}
-
+				
+				System.out.println("Creato punto in " + x + ", " + y);
 			}
 
 			@Override
@@ -73,9 +98,43 @@ public class GenPunti extends JFrame {
 			}
 		});
 		
-		 frame.setLocationRelativeTo(null);
+		gen.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				NumberFormat nf = NumberFormat.getNumberInstance();
+				nf.setMaximumFractionDigits(2);
+
+				FileWriter out = null;
+				try {
+					out = new FileWriter("prova.txt");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				BufferedWriter filebuf = new BufferedWriter(out);
+				PrintWriter pr = new PrintWriter(filebuf);
+				dist = new double[idx*idx];
+				for(int i = 0; i < idx; i++)
+					for(int j = 0; j < idx; j++)
+					{
+						double distance = Math.sqrt(   Math.pow((p[i].x - p[j].x),2) + Math.pow((p[i].y - p[j].y),2)  );
+						dist[i*idx + j] = distance;
+						pr.print(" "+nf.format(distance));
+						
+						System.out.print(" " + nf.format(distance));
+						
+					}
+				pr.close();
+				
+				
+				
+			}
+
+		});
+		
 	}
-	
 	
 	class CoordinatePunto
 	{
@@ -89,4 +148,5 @@ public class GenPunti extends JFrame {
 		
 	}
 }
+
 
