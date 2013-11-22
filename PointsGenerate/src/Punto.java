@@ -9,7 +9,6 @@ public class Punto extends JPanel {
 	
 	private int x;
 	private int y;
-	private int i=1;
 	private int n;
 
 	public Punto(int cx, int cy)
@@ -20,10 +19,6 @@ public class Punto extends JPanel {
 	}
 	
 	public void paintComponent(Graphics gg){
-		if(i==1){
-			super.paintComponent(gg);
-			i=0;
-		}
 		Graphics2D g = (Graphics2D) gg;
 		g.setColor(Color.RED);
 		g.fillOval(x-2, y-2, 5, 5);
