@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -35,8 +36,6 @@ public class GenPunti extends JFrame {
 	public GenPunti()
 	{
 		a = new Punto(-10,-10);
-		a.setBackground(Color.WHITE);
-		a.setBounds(10, 10, 100, 100);
 		
 		getContentPane().add(a, BorderLayout.CENTER);
 		getContentPane().add(bottone, BorderLayout.SOUTH);
@@ -65,8 +64,7 @@ public class GenPunti extends JFrame {
 				int y = e.getY();
 				
 				a.move(x, y);
-				a.setVisible(true);
-				a.repaint();
+				
 				p[idx] = new CoordinatePunto(x,y);
 				idx++;
 				
