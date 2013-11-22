@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -103,9 +104,6 @@ public class GenPunti extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
-				NumberFormat nf = NumberFormat.getNumberInstance();
-				nf.setMaximumFractionDigits(2);
-
 				FileWriter out = null;
 				try {
 					out = new FileWriter("prova.txt");
@@ -121,9 +119,9 @@ public class GenPunti extends JFrame {
 					{
 						double distance = Math.sqrt(   Math.pow((p[i].x - p[j].x),2) + Math.pow((p[i].y - p[j].y),2)  );
 						dist[i*idx + j] = distance;
-						pr.print(" "+nf.format(distance));
+						pr.format(Locale.ENGLISH,"%.2f ",distance);
 						
-						System.out.print(" " + nf.format(distance));
+						System.out.format(Locale.ENGLISH,"%.2f ",distance);
 						
 					}
 				pr.close();
