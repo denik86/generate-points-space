@@ -1,0 +1,1 @@
+Generazione di punti su uno spazio bidimensionali usando JFrame
